@@ -1,42 +1,22 @@
 import { ApolloServer } from "@apollo/server"
 import { startStandaloneServer } from "@apollo/server/standalone"
+import { typeDefs } from "./car/schemas/car.js"
+import { carResolvers } from "./car/resolvers/carResolver.js"
+import UsersAPI from "./car/dataSource/user.js"
 
-const typeDefs = `
-    type Car {
-        model : String,
-        brand : String
-    }
+const resolvers = [carResolvers]
 
-    type Query {
-        cars : [Car]
-    }
-`
-
-const cars = [
-    {
-        model : "Polo",
-        brand : "Volkswagen"
-    },
-    {
-        model : "Elantra",
-        brand : "Hyundai"
-    },
-    {
-        model : "Focus",
-        brand : "Ford"
-    }
-]
-
-const resolvers = {
-    Query : {
-        cars : () => cars
-    }
-}
-
-const server = new ApolloServer({ typeDefs, resolvers })
+const server = new ApolloServer({ typeDefs, resolvers,  })
 
 const { url } = await startStandaloneServer(server, {
-    listen : {port : 4000}
+    listen : {port : 4000},
+    context : () => {
+        return {
+            dataSources : {
+                usersApi : new UsersAPI
+            }
+        }
+    }
 })
 
 console.log(`Server is running on ${url}`)
