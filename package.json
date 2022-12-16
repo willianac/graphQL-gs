@@ -5,8 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./api/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon js graphql ./api/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "init" : "npx json-server --watch api/data/dados.json"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/alura-cursos/1922-graphql#readme",
   "dependencies": {
+    "@apollo/datasource-rest": "^4.3.2",
     "@apollo/server": "^4.3.0",
     "graphql": "^16.6.0",
     "json-server": "^0.16.1",
